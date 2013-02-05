@@ -11,6 +11,7 @@
             var spacew = w/10;
             var spaceh = h/10;
             var pad = 1;
+            var boardfontsize = 16;
 
             // Functions to place data / labels in correct position on C&L board.
             // The spaces wind up the board from lower left to upper left on 10x10 board.
@@ -60,12 +61,40 @@
                 .attr("stroke","silver")
                 .attr("stroke-width", 0.5);
 
+            // Add chutes and ladders
+            var ladders = [[1,38],[4,14],[9,31],[21,42],[28,84],[36,44],[51,67],[71,91],[80,100]];
+            board.selectAll("line")
+                .data(ladders)
+                .enter()
+                .append("line")
+                .attr("x1",function(d){return labelx(d[0]-1,d[0]-1);})
+                .attr("y1",function(d){return labely(d[0]-1,d[0]-1);})
+                .attr("x2",function(d){return labelx(d[1]-1,d[1]-1);})
+                .attr("y2",function(d){return labely(d[1]-1,d[1]-1);})
+                .attr("stroke", "green")
+                .attr("stroke-width", 8)
+                .attr("stroke-opacity", 0.15);
+
+            var chutes = [[98,78],[95,75],[93,73],[87,24],[64,60],[62,19],[56,53],[49,11],[48,26],[16,6]];
+            // Concatenate chutes and ladders to draw chutes
+            ladders.push.apply(ladders,chutes)
+            board.selectAll("line")
+                .data(ladders)
+                .enter()
+                .append("line")
+                .attr("x1",function(d){return labelx(d[0]-1,d[0]-1);})
+                .attr("y1",function(d){return labely(d[0]-1,d[0]-1);})
+                .attr("x2",function(d){return labelx(d[1]-1,d[1]-1);})
+                .attr("y2",function(d){return labely(d[1]-1,d[1]-1);})
+                .attr("stroke", "red")
+                .attr("stroke-width", 8)
+                .attr("stroke-opacity", 0.15);
+
             // Add number labels to each space
 
             function labelx(d,i){return spacex(d,i) + spacew/2;}
             function labely(d,i){return spacey(d,i) + spaceh/2 + boardfontsize/3;}
 
-            var boardfontsize = 16;
             board.selectAll("text")
                 .data(dataset0)
                 .enter()
@@ -149,18 +178,18 @@
 
             //--------------------------------------
             // Moves counter
-            var fontsize = 32;
+            var counterfontsize = 32;
             var counter = d3.select("#counter")
                 .append("svg")
-                .attr("width", 3*fontsize)
-                .attr("height", 1.125*fontsize)
+                .attr("width", 3*counterfontsize)
+                .attr("height", 1.125*counterfontsize)
                 .append("text")
                 .text("0")
                 .attr("text-anchor", "center")
-                .attr("x", fontsize/2)
-                .attr("y", 1.125*fontsize)
+                .attr("x", counterfontsize/2)
+                .attr("y", 1.125*counterfontsize)
                 .attr("font-family", "sans-serif")
-                .attr("font-size", fontsize)
+                .attr("font-size", counterfontsize)
                 .attr("font-weight", "bold")
                 .attr("fill", "dimgray");
 
