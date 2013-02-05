@@ -125,6 +125,7 @@
 
             // Create a line object
             var line = d3.svg.line()
+                .interpolate("basis") // Spline interpolation
                 // assign the X function to plot the line
                 .x(function(d,i) {return x(i);})
                 .y(function(d) {return y(d);});
