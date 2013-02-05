@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Chutes and Ladders via Markov Chains with D3 demo</title>
+<!--        <script type="text/javascript" src="../d3/d3.v3.js"></script>-->
+        <script src="http://d3js.org/d3.v3.min.js"></script>
+        <style type="text/css">
+                body {
+                    text-align: center; 
+                    color: #555555; 
+                    background-color: white;
+                    font-family: arial, helvetica, sans-serif;
+                    //font-size: 32px;
+                    }
+
+                a:link  {color: darkgray; text-decoration: none}
+                a:visited {color: darkgray; text-decoration: none}
+                a:hover {color: silver; text-decoration: underline}
+
+        </style>
+    </head>
+    <body>
+        <h1>Chutes and Ladders via Markov Chains</h1>
+        <p>Click board to start simulation.</p>
+        <div id="board"></div>
+        <div id="lineplot"></div>
+        <div id="countdiv"><span style="font-size: 32px;">Moves: </span><span id="counter"></span></div>
+
+        <script type="text/javascript" src="chutes-and-ladders-d3.js"></script>
+        
+    </body>
+</html>
