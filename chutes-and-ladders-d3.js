@@ -124,6 +124,7 @@
                     animateboard(dsets[k], k);
                     animateline(dsets[k], k);
                     animatecounter(k);
+                    animatewin(dsets[k],k);
                     }
             ;}
 
@@ -181,12 +182,12 @@
             var counterfontsize = 32;
             var counter = d3.select("#counter")
                 .append("svg")
-                .attr("width", 3*counterfontsize)
+                .attr("width", 2*counterfontsize)
                 .attr("height", 1.125*counterfontsize)
                 .append("text")
                 .text("0")
                 .attr("text-anchor", "center")
-                .attr("x", counterfontsize/2)
+                .attr("x", counterfontsize/10)
                 .attr("y", 1.125*counterfontsize)
                 .attr("font-family", "sans-serif")
                 .attr("font-size", counterfontsize)
@@ -200,4 +201,30 @@
                     .delay(500*k)
                     .duration(500)
                     .text(parseInt(k)+1)
+                };
+
+            //--------------------------------------
+            // Win display (percent chance)
+            var counterfontsize = 32;
+            var counter = d3.select("#win")
+                .append("svg")
+                .attr("width", 4.5*counterfontsize)
+                .attr("height", 1.125*counterfontsize)
+                .append("text")
+                .text("0")
+                .attr("text-anchor", "center")
+                .attr("x", counterfontsize/10)
+                .attr("y", 1.125*counterfontsize)
+                .attr("font-family", "sans-serif")
+                .attr("font-size", counterfontsize)
+                .attr("font-weight", "bold")
+                .attr("fill", "dimgray");
+
+            // Animate counter
+            function animatewin(dset,k) {
+                d3.select("#win text")
+                .transition()
+                    .delay(500*k)
+                    .duration(500)
+                    .text((parseFloat(dset[99])*100).toFixed(2) + "%")
                 };

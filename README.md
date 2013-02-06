@@ -14,6 +14,5 @@ License statement: If used in substantially similar form to the original, please
 
 The todo list includes:
 * Demo with full explanation.
-* Add chutes and ladders to board.
 * Give better context (i.e. axes) to line plot.
 * Tweak animation timing?
