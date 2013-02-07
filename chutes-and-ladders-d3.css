@@ -1,0 +1,15 @@
+                .y.axis line, .y.axis path {
+                    fill: none;
+                    stroke-width: 1.0;
+                    stroke: dimgrey;
+                    shape-rendering: crispEdges;
+                    }
+
+                .y.axis text {
+                    fill: dimgrey;
+                    }
+
+                // x axis
+                .xticks text {
+                    fill: dimgrey;
+                    }

@@ -1,8 +1,7 @@
             //----------------
             // Todo:
-            // * Most basic functionality. DONE
+            // * Refactor some repetitive code.
             // * More
-            // * Add chutes and ladders
             //-----------------------
 
             // Board parameters
@@ -12,8 +11,10 @@
             var spaceh = h/10;
             var pad = 1;
             var boardfontsize = 16;
+            var chutecolor = "tomato";
+            var laddercolor = "yellowgreen";
 
-            // Functions to place data / labels in correct position on C&L board.
+            // Functions to place data / labels / obstacles in correct position on C&L board.
             // The spaces wind up the board from lower left to upper left on 10x10 board.
             function spacex(d,i){
                         if(i % 20 < 10){
@@ -25,22 +26,9 @@
 
 
             //Data
-            // Starting board. Should probably be generated on the fly.
-            var dataset0 = [0.,          0.,  0.,  0.,          0.,
-  0.,  0.,          0.,          0.,          0.,          0.,          0.,
-  0.,          0.,  0.,          0.,          0.,          0.,          0.,
-  0.,          0.,          0.,          0.,          0.,          0.,          0.,
-  0.,          0.,          0.,          0.,          0.,          0.,          0.,
-  0.,          0.,          0.,          0.,          0.,  0.,          0.,
-  0.,          0.,          0.,          0.,          0.,          0.,          0.,
-  0.,          0.,          0.,          0.,          0.,          0.,          0.,
-  0.,          0.,          0.,          0.,          0.,          0.,          0.,
-  0.,          0.,          0.,          0.,          0.,          0.,          0.,
-  0.,          0.,          0.,          0.,          0.,          0.,          0.,
-  0.,          0.,          0.,          0.,          0.,          0.,          0.,
-  0.,          0.,          0.,          0.,          0.,          0.,          0.,
-  0.,          0.,          0.,          0.,          0.,          0.,          0.,
-  0.,          0.,          0.,          0.,        ]
+            // Starting board of zeros
+            var dataset0 = new Array(100)
+            for (var j=0; j < 100; j++){dataset0[j] = 0.0}
 
             // Create SVG of board
             var board = d3.select("#board")
@@ -64,11 +52,9 @@
             // Add chutes and ladders
             var ladders = [[1,38],[4,14],[9,31],[21,42],[28,84],[36,44],[51,67],[71,91],[80,100]];
 
-            var chutecolor = "tomato"
-            var laddercolor = "yellowgreen"
+            // Add arrow marker elements
             var arrowlist = [chutecolor,laddercolor]
 
-            // Add arrow marker elements
             for (var j in arrowlist){
             board.append("marker")
                 .attr("viewBox", "0 -5 10 10")
@@ -164,37 +150,93 @@
 
             //------------------------------------------------
             // Create SVG line plot of board probabilities
+            var plotsvgheight = 160
+            var plotheight = 100
+            var plotsvgwidth = w
+            var plotwidth = plotsvgwidth - 80
+
             var lineplot = d3.select("#lineplot")
                 .append("svg")
-                .attr("width", w)
-                .attr("height", 100);
+                .attr("width", plotsvgwidth)
+                .attr("height", plotsvgheight);
 
-            // X scale will fit values from 0-100 within pixels 0-width
+            // X scale will fit values from 1-100 within pixels 0-width
             var x = d3.scale.linear()
-                .domain([0, 100])
-                .range([0, w]);
+                .domain([1, 100])
+                .range([0, plotwidth]);
             // Y scale will fit values from 0-1 within pixels 0-100
             var y = d3.scale.linear()
                 .domain([0, 1])
-                .range([100, 0]);
+                .range([plotheight, 0]);
 
             // Create a line object
             var line = d3.svg.line()
                 .interpolate("basis") // Spline interpolation
                 // assign the X function to plot the line
-                .x(function(d,i) {return x(i);})
+                .x(function(d,i) {return x(i+1);})
                 .y(function(d) {return y(d);});
+
+            // Add scale / axes
+            // x axis
+            lineplot.selectAll("line")
+                .data(x.ticks(10))
+                .enter().append("line")
+                .attr("x1", x)
+                .attr("x2", x)
+                .attr("y1", 0)
+                .attr("y2", 100)
+                .style("stroke", "silver")
+                .attr("shape-rendering", "crispEdges")
+                .attr("transform", "translate(62,20)");
+            // Add x axis tick labels
+            lineplot.selectAll(".rule")
+                .data(x.ticks(10))
+                .enter().append("text")
+                .attr("class","xticks")
+                .attr("x", x)
+                .attr("y", plotheight+15)
+                .style("fill", "dimgrey")
+                .attr("text-anchor", "middle")
+                .text(String)
+                .attr("transform", "translate(62,20)");
+            // x axis label
+            lineplot.append("text")
+                .attr("x", (plotwidth)/2)
+                .attr("y", plotheight+37)
+                .style("fill", "dimgrey")
+                //.attr("font-weight", "bold")
+                .attr("text-anchor", "middle")
+                .text("Space on Game Board")
+                .attr("transform", "translate(62,20)");
+
+            // y axis
+            var yAxisLeft = d3.svg.axis().scale(y).ticks(4).orient("left");
+            lineplot.append("g")
+                .attr("class", "y axis")
+                .attr("transform", "translate(62,20)")
+                .call(yAxisLeft);
+            // y axis label
+            lineplot.append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("x", -plotheight/2 - 20)
+                .attr("y", 20) //plotheight/2)
+                .style("fill", "dimgrey")
+                //.attr("font-weight", "bold")
+                .attr("text-anchor", "middle")
+                .text("Probability");
 
             // Display the line by appending an svg:path element with the data line created above
             lineplot.append("path")
+                .attr("id","plot")
                 .attr("d", line(dataset0))
                 .attr("stroke", "steelblue")
                 .attr("stroke-width", 2)
-                .attr("fill","none");
+                .attr("fill","none")
+                .attr("transform", "translate(62,20)");
 
             // Animate line plot
             function animateline(dset,k) {
-                d3.select("#lineplot path")
+                d3.select("#lineplot #plot")
                 .transition()
                     .delay(500*k)
                     .duration(500)
@@ -236,7 +278,7 @@
                 .attr("width", 4.5*counterfontsize)
                 .attr("height", 1.125*counterfontsize)
                 .append("text")
-                .text("0")
+                .text("0.00%")
                 .attr("text-anchor", "center")
                 .attr("x", counterfontsize/10)
                 .attr("y", 1.125*counterfontsize)
@@ -245,7 +287,7 @@
                 .attr("font-weight", "bold")
                 .attr("fill", "dimgray");
 
-            // Animate counter
+            // Animate chance
             function animatewin(dset,k) {
                 d3.select("#win text")
                 .transition()
