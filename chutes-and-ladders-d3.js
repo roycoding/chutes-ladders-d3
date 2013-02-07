@@ -26,7 +26,7 @@
 
             //Data
             // Starting board. Should probably be generated on the fly.
-            var dataset0 = [1.,          0.,  0.,  0.,          0.,
+            var dataset0 = [0.,          0.,  0.,  0.,          0.,
   0.,  0.,          0.,          0.,          0.,          0.,          0.,
   0.,          0.,  0.,          0.,          0.,          0.,          0.,
   0.,          0.,          0.,          0.,          0.,          0.,          0.,
@@ -63,17 +63,40 @@
 
             // Add chutes and ladders
             var ladders = [[1,38],[4,14],[9,31],[21,42],[28,84],[36,44],[51,67],[71,91],[80,100]];
+
+            var chutecolor = "tomato"
+            var laddercolor = "yellowgreen"
+            var arrowlist = [chutecolor,laddercolor]
+
+            // Add arrow marker elements
+            for (var j in arrowlist){
+            board.append("marker")
+                .attr("viewBox", "0 -5 10 10")
+                .attr("refX", 4)
+                .attr("refY", 0)
+                .attr("markerWidth", 3)
+                .attr("markerHeight", 3)
+                .attr("orient", "auto")
+                .attr("id",function(){if (j == 0){return "chute-end";} else {return "ladder-end";}})
+                .attr("fill",arrowlist[j])
+                .attr("fill-opacity", 0.2)
+                .append("path")
+                .attr("d", "M0,-5L10,0L0,5");
+            }
+
             board.selectAll("line")
                 .data(ladders)
                 .enter()
                 .append("line")
                 .attr("x1",function(d){return labelx(d[0]-1,d[0]-1);})
-                .attr("y1",function(d){return labely(d[0]-1,d[0]-1);})
+                .attr("y1",function(d){return labely(d[0]-1,d[0]-1)-boardfontsize/3;})
                 .attr("x2",function(d){return labelx(d[1]-1,d[1]-1);})
-                .attr("y2",function(d){return labely(d[1]-1,d[1]-1);})
-                .attr("stroke", "green")
+                .attr("y2",function(d){return labely(d[1]-1,d[1]-1)-boardfontsize/3;})
+                .attr("stroke", laddercolor)
                 .attr("stroke-width", 8)
-                .attr("stroke-opacity", 0.15);
+                .attr("stroke-opacity", 0.2)
+                // Add end arrows
+                .attr("marker-end","url(#ladder-end)");
 
             var chutes = [[98,78],[95,75],[93,73],[87,24],[64,60],[62,19],[56,53],[49,11],[48,26],[16,6]];
             // Concatenate chutes and ladders to draw chutes
@@ -83,12 +106,14 @@
                 .enter()
                 .append("line")
                 .attr("x1",function(d){return labelx(d[0]-1,d[0]-1);})
-                .attr("y1",function(d){return labely(d[0]-1,d[0]-1);})
+                .attr("y1",function(d){return labely(d[0]-1,d[0]-1)-boardfontsize/3;})
                 .attr("x2",function(d){return labelx(d[1]-1,d[1]-1);})
-                .attr("y2",function(d){return labely(d[1]-1,d[1]-1);})
-                .attr("stroke", "red")
+                .attr("y2",function(d){return labely(d[1]-1,d[1]-1)-boardfontsize/3;})
+                .attr("stroke", chutecolor)
                 .attr("stroke-width", 8)
-                .attr("stroke-opacity", 0.15);
+                .attr("stroke-opacity", 0.2)
+                // Add end arrows
+                .attr("marker-end","url(#chute-end)");
 
             // Add number labels to each space
 
@@ -169,7 +194,7 @@
 
             // Animate line plot
             function animateline(dset,k) {
-                d3.select("path")
+                d3.select("#lineplot path")
                 .transition()
                     .delay(500*k)
                     .duration(500)
