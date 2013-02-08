@@ -18,11 +18,11 @@
             // The spaces wind up the board from lower left to upper left on 10x10 board.
             function spacex(d,i){
                         if(i % 20 < 10){
-                            return i*spacew % w;}
+                            return (i*spacew % w) + pad;}
                         else {
-                            return w -spacew - (i*spacew % w);}
+                            return (w -spacew - (i*spacew % w)) + pad;}
                         }
-            function spacey(d,i){return h - spaceh - Math.floor(i/10)*spaceh;}
+            function spacey(d,i){return (h - spaceh - Math.floor(i/10)*spaceh) + pad;}
 
 
             //Data
@@ -47,7 +47,9 @@
                 .attr("height",spaceh-2*pad)
                 .attr("fill", function(d) {return "rgb(255," + Math.round(255-d*200.0/1) + "," + Math.round(255-d*200.0/1) + ")";})
                 .attr("stroke","silver")
-                .attr("stroke-width", 0.5);
+                .attr("stroke-width", 1.0)
+                .attr("stroke-opacity", 0.5)
+                .attr("shape-rendering", "crispEdges");
 
             // Add chutes and ladders
             var ladders = [[1,38],[4,14],[9,31],[21,42],[28,84],[36,44],[51,67],[71,91],[80,100]];
@@ -186,6 +188,7 @@
                 .attr("y1", 0)
                 .attr("y2", 100)
                 .style("stroke", "silver")
+                .attr("stroke-opacity", 0.5)
                 .attr("shape-rendering", "crispEdges")
                 .attr("transform", "translate(62,20)");
             // Add x axis tick labels
@@ -206,7 +209,7 @@
                 .style("fill", "dimgrey")
                 //.attr("font-weight", "bold")
                 .attr("text-anchor", "middle")
-                .text("Space on Game Board")
+                .text("Position on Game Board")
                 .attr("transform", "translate(62,20)");
 
             // y axis
