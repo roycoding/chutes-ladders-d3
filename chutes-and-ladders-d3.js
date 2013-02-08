@@ -45,7 +45,7 @@
                 .attr("y",spacey)
                 .attr("width",spacew-2*pad)
                 .attr("height",spaceh-2*pad)
-                .attr("fill", function(d) {return "rgb(255," + Math.round(255-d*200.0/1) + "," + Math.round(255-d*200.0/1) + ")";})
+                .attr("fill", "white")
                 .attr("stroke","silver")
                 .attr("stroke-width", 1.0)
                 .attr("stroke-opacity", 0.5)
@@ -122,6 +122,43 @@
                 .attr("fill", "dimgray");
                 //.attr("stroke","silver");
 
+            // Add start and finish labels to board
+//            board.append("text")
+//                .attr("x", labelx(0,0))
+//                .attr("y", labely(0,0)+15)
+//                .style("fill", "silver")
+//                //.attr("font-weight", "bold")
+//                .attr("text-anchor", "middle")
+//                .text("Start");
+            board.append("text")
+                .attr("x", labelx(0,99))
+                .attr("y", labely(0,99)-15)
+                .style("fill", "silver")
+                //.attr("font-weight", "bold")
+                .attr("text-anchor", "middle")
+                .text("Finish");
+
+            // Add start indicator at edge of first space.
+            // Remove when animation starts.
+            board.append("rect")
+                .attr("id","starter")
+                .attr("x",spacex(0,0))
+                .attr("y",spacey(0,0))
+                .attr("width",2)
+                .attr("height",spaceh)
+                .attr("fill", "none")
+                .attr("stroke","red")
+                .attr("stroke-width", 2.0)
+                .attr("stroke-opacity", 0.5)
+                .attr("shape-rendering", "crispEdges");
+
+            function animatestart(){
+                d3.select("#starter")
+                .transition()
+                    .duration(500)
+                    .attr("stroke-opacity", 0.0);
+                };
+
 
             // Loop through JSON imported data
             d3.json("markovboards.json",function(json){
@@ -132,7 +169,8 @@
             //board.on("click", function(){return animateboardloop(dsets);});
 
             function animateboardloop(dsets) {
-                //console.log(dsets[dset]); 
+                //console.log(dsets[dset]);
+                animatestart();
                 for (var k in dsets){
                     animateboard(dsets[k], k);
                     animateline(dsets[k], k);
@@ -146,7 +184,8 @@
                 .transition()
                     .delay(500*k)
                     .duration(500)
-                    .attr("fill", function(d) {return "rgb(255," + Math.round(255-d*200.0/1) + "," + Math.round(255-d*200.0/1) + ")";})
+                    .attr("fill", function(d) {return "rgb(255," + Math.round(255-d*200.0/1) + "," + Math.round(255-d*200.0/1) + ")";}) // Red
+                    //.attr("fill", function(d) {return "rgb(" + Math.round(255-d*200.0/1) + "," + Math.round(255-d*200.0/1) + ",255)";}) // Blue
                 };
 
 
