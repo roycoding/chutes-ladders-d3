@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
+<head>
+
+	<!-- Basic Page Needs
+  ================================================== -->
+	<meta charset="utf-8">
+	<title>Chutes and Ladders via Markov chains with D3 demo.</title>
+	<meta name="description" content="Poster Lynx brings your conference poster to the web.">
+	<meta name="author" content="Poster Lynx">
+
+	<!-- Mobile Specific Metas
+  ================================================== -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- Chutes+Ladders JS and CSS
+  ================================================== -->
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <link href="chutes-and-ladders-d3.css" rel="stylesheet" type="text/css" />
+
+    <!-- Custon style
+  ================================================== -->
+    <style type="text/css">
+    p.justify{
+    text-align:justify;
+    }
+    p.center{
+    text-align:center;
+    }
+    </style>
+
+	<!-- Skeleton CSS
+  ================================================== -->
+	<link rel="stylesheet" href="stylesheets/base.css">
+	<link rel="stylesheet" href="stylesheets/skeleton.css">
+	<link rel="stylesheet" href="stylesheets/layout.css">
+
+	<!--[if lt IE 9]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<!-- Favicons
+	================================================== -->
+<!--	<link rel="shortcut icon" href="images/favicon.ico">-->
+<!--	<link rel="apple-touch-icon" href="images/apple-touch-icon.png">-->
+<!--	<link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">-->
+<!--	<link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">-->
+
+</head>
+<body>
+
+
+
+	<!-- Primary Page Layout
+	================================================== -->
+
+    <a href="https://github.com/roycoding/chutes-ladders-d3"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
+
+
+
+	<div class="container">
+        <h1 style="text-align:center;">Chutes and Ladders via Markov Chains</h1>
+        <br/>
+
+		<div class="nine columns alpha">
+        <p class="center">Click board to start simulation.</p>
+        <div id="board" style="text-align:center;"></div>
+        <div id="lineplot" style="text-align:center;"></div>
+        <div id="countdiv"><span style="font-size: 32px;">Moves: </span><span id="counter"></span><span style="font-size: 32px;">Win chance: </span><span id="win"></span></div>
+		</div>
+
+		<div class="seven columns omega" style="text-align:center;">
+        <br/>
+        <p class="justify">Chutes and Ladders is a popular children's board game, also known as Snakes and Ladders. It is <b>not</b> a game of skill, rather a player advances simply upon the outcome of the roll of a die or the flick of a spin wheel. This makes it particularly well suited to mathematical simulation. Here I've recreated the simulation of Chutes and Ladders via the Markov chain technique as described in a popular <a href="http://www.datagenetics.com/blog/november12011/index.html">blog post</a> by Nick Barry.</p>
+
+        <p class="justify">The Markov chain technique takes the probabilities of individual events and propagates all of the event probabilities simultaneously under the assumption that they are independent of one another. In the case of Chutes and Ladders, the individual event is moving from a given position on the board to any other position. The probabilities are propagated by use of a properly normalized transition matrix (see Nick Barry's <a href="http://www.datagenetics.com/blog/november12011/index.html">post</a>).</p>
+
+        <p class="justify">Here I have generated the probabilities for being on a given square after <em>n</em> moves. By clicking on the board to the left, you can see how the probabilities evolve as the number of moves increase. After around 12 moves, the chance of winning starts to be noticeable (you can actually win in as few as 7 moves!).</p>
+<!-- The plot below displays the evolution of the probabilities as a function of number of moves. Darker red means a higher probability of being on that square.</p>-->
+
+<!--        <center><img src="moves1.png" title="Probability of position vs. number of moves" style="width: 626px; height: 329px;" alt="Plot of position probabilities versus number of moves."></center>-->
+
+        <p class="justify">I wrote the Markov chain model in Python (<a href="https://github.com/roycoding/chutes-and-ladders">here</a> on github) and created the animated plot on the left in D3.js (<a href="https://github.com/roycoding/chutes-ladders-d3">here</a> on github).</p>
+		</div>
+        <div class="sixteen columns">
+        <br/>
+        <p class="center"><small>The above animation may not work correctly unless you are using a "modern" browser, such as Chrome, Firefox, Safari, or Opera.</small></p>
+            <hr />
+            <div style="text-align: right; margin-bottom:10px;"><a href="http://roycoding.github.io">Roy Keyes</a> &rarr; <a href="http://roycoding.github.io/data/">Data Projects</a></div>
+		</div>
+
+	</div><!-- container -->
+
+    <script type="text/javascript" src="chutes-and-ladders-d3.js"></script>
+
+<!-- End Document
+================================================== -->
+</body>
+</html>
