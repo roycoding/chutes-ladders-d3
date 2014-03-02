@@ -8,10 +8,9 @@ I implemented the Monte Carlo and Markov chain models in Python [here](https://g
 
 This visualization depends on D3.js, which is linked in the code itself. It requires a "modern" web browser, meaning you're best bet is to try Chrome/Chromium, Firefox, Safari, or a related browser (as of 2013).
 
-You can see a working version [here](http://cs.unm.edu/~rkeyes/chutesladders/).
+You can see a working version [here](http://roycoding.github.io/chutes-ladders-d3/).
 
 License statement: If used in substantially similar form to the original, please attribute this visualization and accompanying text to me, Roy Keyes. Otherwise, feel free to modify and reuse this for any purpose.
 
 The todo list includes:
-* Demo with full explanation.
 * Tweak animation timing?
