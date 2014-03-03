@@ -5,6 +5,7 @@
             //-----------------------
 
             // Board parameters
+            // Snippet from http://www.digimantra.com/technology/javascript/detect-screen-or-browser-size-in-javascript/
             function getWidth()
               {
                 xWidth = null;
